@@ -105,10 +105,10 @@ extern crate rand;
 use rand::{thread_rng, Rng};
 
 fn get_random_parameters() -> (usize, Vec<Item>) {
-    let capacity = thread_rng().gen_range(100, 1000);
+    let capacity = thread_rng().gen_range(1000, 2000);
     let mut items = Vec::new();
 
-    for _ in 0..1000 {
+    for _ in 0..2000 {
         let weight = thread_rng().gen_range(1, 100);
         let value = thread_rng().gen_range(1, capacity / 4);
         items.push(Item { weight, value });
@@ -139,54 +139,21 @@ fn main() {
             weight: 6,
             value: 20,
         },
+    ];
+
+    let expected = vec![
         Item {
-            weight: 6,
-            value: 20,
+            weight: 3,
+            value: 50,
         },
         Item {
-            weight: 6,
-            value: 20,
-        },
-        Item {
-            weight: 6,
-            value: 20,
-        },
-        Item {
-            weight: 6,
-            value: 20,
-        },
-        Item {
-            weight: 6,
-            value: 20,
+            weight: 4,
+            value: 40,
         },
     ];
 
-    assert_eq!(
-        dp_knapsack(&items, 10),
-        vec![
-            Item {
-                weight: 3,
-                value: 50
-            },
-            Item {
-                weight: 4,
-                value: 40
-            },
-        ]
-    );
-    assert_eq!(
-        smart_dp_knapsack(&items, 10),
-        vec![
-            Item {
-                weight: 3,
-                value: 50
-            },
-            Item {
-                weight: 4,
-                value: 40
-            },
-        ]
-    );
+    assert_eq!(dp_knapsack(&items, 10), expected);
+    assert_eq!(smart_dp_knapsack(&items, 10), expected);
 
     let (capacity, items) = get_random_parameters();
     dp_knapsack(&items, capacity);
